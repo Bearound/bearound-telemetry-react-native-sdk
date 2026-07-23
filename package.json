@@ -1,0 +1,32 @@
+{
+  "name": "@bearound/telemetry-react-native-sdk",
+  "version": "0.1.0",
+  "description": "Bearound Telemetry SDK for React Native — beacon-hardware telemetry (battery, temperature, movement, firmware, signal) with no location permission. Android only. This SDK does not track people.",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "files": [
+    "src",
+    "android",
+    "!android/build",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react-native",
+    "android",
+    "bearound",
+    "beacon",
+    "telemetry",
+    "ble"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bearound/bearound-telemetry-react-native-sdk.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Bearound/bearound-telemetry-react-native-sdk",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}
