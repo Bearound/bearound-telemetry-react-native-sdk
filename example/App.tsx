@@ -77,6 +77,14 @@ export default function App() {
     });
     const sub = BearoundTelemetry.onBeacons(list => {
       const fresh: LogEntry[] = [];
+      // MIRROR the SDK's list: expired beacons are already removed from the
+      // emission (including an empty list) — upsert-only kept ghosts around.
+      const currentKeys = new Set(list.map(b => `${b.major}/${b.minor}`));
+      for (const key of [...beaconsRef.current.keys()]) {
+        if (!currentKeys.has(key)) {
+          beaconsRef.current.delete(key);
+        }
+      }
       for (const b of list) {
         const key = `${b.major}/${b.minor}`;
         beaconsRef.current.set(key, b);
