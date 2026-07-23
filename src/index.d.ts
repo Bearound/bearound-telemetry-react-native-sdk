@@ -19,12 +19,18 @@ export interface TelemetryBeacon {
   firmware?: string;
 }
 
+/** Scan precision — background radio duty + sync cadence. Foreground is always LOW_LATENCY. */
+export type ScanPrecision = 'high' | 'medium' | 'low';
+
 declare const BearoundTelemetry: {
   /**
    * Configures the SDK. Resolves `true` when the companion handoff happened
    * (Bearound tracking SDK present and configured); `false` on standalone.
    */
-  configure(businessToken: string): Promise<boolean>;
+  configure(
+    businessToken: string,
+    scanPrecision?: ScanPrecision
+  ): Promise<boolean>;
   /** Requests "Nearby devices" on Android 12+ (never location). */
   requestPermissions(): Promise<void>;
   startScanning(): Promise<void>;

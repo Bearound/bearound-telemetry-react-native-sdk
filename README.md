@@ -45,6 +45,8 @@ import BearoundTelemetry from '@bearound/telemetry-react-native-sdk';
 
 // If the Bearound tracking SDK is installed and configured, the token is
 // taken from it automatically (companion handoff) — resolves true.
+// Optional 2nd arg: scan precision 'high' | 'medium' | 'low' (default 'medium') —
+// prices the BACKGROUND radio duty and sync cadence; foreground is always LOW_LATENCY.
 const companion = await BearoundTelemetry.configure('YOUR_BUSINESS_TOKEN');
 
 await BearoundTelemetry.requestPermissions(); // "Nearby devices" on Android 12+
@@ -78,7 +80,7 @@ await BearoundTelemetry.startScanning();
 
 | Method | Returns | Notes |
 |---|---|---|
-| `configure(businessToken)` | `Promise<boolean>` | `true` = companion handoff happened |
+| `configure(businessToken, scanPrecision?)` | `Promise<boolean>` | `true` = companion handoff happened; precision `'high'`/`'medium'`/`'low'` prices background duty (foreground always LOW_LATENCY) |
 | `requestPermissions()` | `Promise<void>` | `BLUETOOTH_SCAN` on Android 12+ |
 | `startScanning()` | `Promise<void>` | Foreground + background collection |
 | `stopScanning()` | `Promise<void>` | |

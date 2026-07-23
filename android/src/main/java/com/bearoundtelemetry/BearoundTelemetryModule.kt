@@ -16,6 +16,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 import io.bearound.telemetry.BearoundTelemetrySDK
 import io.bearound.telemetry.interfaces.BearoundTelemetrySDKListener
 import io.bearound.telemetry.models.Beacon
+import io.bearound.telemetry.models.ScanPrecision
 
 /**
  * Bearound Telemetry — React Native module (Android only, classic module — works on
@@ -63,17 +64,23 @@ class BearoundTelemetryModule(private val ctx: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun configure(businessToken: String, promise: Promise) = onMain(promise, "configure_failed") {
-        sdk.listener = this
-        val tracking = trackingSdkInstanceOrNull()
-        if (tracking != null) {
-            // Companion: credentials + deviceId handoff from the tracking instance.
-            sdk.configure(tracking)
-        } else {
-            sdk.configure(businessToken = businessToken)
+    fun configure(businessToken: String, scanPrecision: String?, promise: Promise) =
+        onMain(promise, "configure_failed") {
+            sdk.listener = this
+            val precision = ScanPrecision.fromName(scanPrecision ?: "medium")
+            val tracking = trackingSdkInstanceOrNull()
+            if (tracking != null) {
+                // Companion: credentials + deviceId handoff from the tracking instance.
+                sdk.configure(tracking, scanPrecision = precision, technology = "react-native-telemetry")
+            } else {
+                sdk.configure(
+                    businessToken = businessToken,
+                    scanPrecision = precision,
+                    technology = "react-native-telemetry",
+                )
+            }
+            tracking != null
         }
-        tracking != null
-    }
 
     @ReactMethod
     fun startScanning(promise: Promise) = onMain(promise, "start_failed") {

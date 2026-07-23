@@ -21,9 +21,14 @@ const BearoundTelemetry = {
    * Configures the SDK. Resolves `true` when the companion handoff happened
    * (the Bearound tracking SDK is present and configured — credentials and
    * device id were taken from its instance); `false` on a standalone configure.
+   *
+   * @param {string} businessToken
+   * @param {'high'|'medium'|'low'} [scanPrecision] Scan precision — controls the
+   *   background radio duty and sync cadence. Foreground scanning is always
+   *   LOW_LATENCY regardless. Default 'medium'.
    */
-  configure(businessToken) {
-    return Native.configure(businessToken);
+  configure(businessToken, scanPrecision) {
+    return Native.configure(businessToken, scanPrecision ?? null);
   },
 
   /** Requests the "Nearby devices" permission on Android 12+ (never location). */
